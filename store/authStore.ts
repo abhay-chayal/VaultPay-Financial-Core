@@ -55,6 +55,15 @@ export const useAuthStore = create<AuthState>()(
           role:   state.role,
           isDemo: state.isDemo,
         }),
+        onRehydrateStorage: () => (state) => {
+          if (state) {
+            state.setLoading(false);
+            if (state.role) {
+              // Re-derive permissions from role since we don't persist them
+              state.permissions = PERMISSIONS[state.role];
+            }
+          }
+        },
       }
     ),
     { name: 'AuthStore' }
