@@ -36,17 +36,26 @@ export const useInvoiceStore = create<InvoiceState>()(
       selectInvoice: (invoice) => set({ selectedInvoice: invoice }),
 
       updateInvoiceStatus: (id, status) =>
-        set((state) => ({
-          invoices: state.invoices.map((inv) =>
-            inv.id === id
-              ? { ...inv, status, paidAt: status === 'Paid' ? new Date().toISOString() : inv.paidAt }
-              : inv
-          ),
-          selectedInvoice:
-            state.selectedInvoice?.id === id
-              ? { ...state.selectedInvoice, status }
-              : state.selectedInvoice,
-        })),
+        set((state) => {
+          // Update the fake backend so direct navigation works
+          const mockIdx = MOCK_INVOICES.findIndex(i => i.id === id);
+          if (mockIdx >= 0) {
+            MOCK_INVOICES[mockIdx].status = status;
+            MOCK_INVOICES[mockIdx].paidAt = status === 'Paid' ? new Date().toISOString() : MOCK_INVOICES[mockIdx].paidAt;
+          }
+
+          return {
+            invoices: state.invoices.map((inv) =>
+              inv.id === id
+                ? { ...inv, status, paidAt: status === 'Paid' ? new Date().toISOString() : inv.paidAt }
+                : inv
+            ),
+            selectedInvoice:
+              state.selectedInvoice?.id === id
+                ? { ...state.selectedInvoice, status, paidAt: status === 'Paid' ? new Date().toISOString() : state.selectedInvoice.paidAt }
+                : state.selectedInvoice,
+          };
+        }),
 
       addInvoice: (invoice) =>
         set((state) => ({ invoices: [invoice, ...state.invoices] })),

@@ -17,7 +17,7 @@ export default function InvoiceDetailPage() {
   const params  = useParams();
   const router  = useRouter();
   const { user, role } = useAuthStore();
-  const { updateInvoiceStatus } = useInvoiceStore();
+  const { updateInvoiceStatus, invoices } = useInvoiceStore();
 
   const [invoice, setInvoice]           = useState<Invoice | null>(null);
   const [notFound, setNotFound]         = useState(false);
@@ -25,7 +25,7 @@ export default function InvoiceDetailPage() {
 
   useEffect(() => {
     const id  = Array.isArray(params.id) ? params.id[0] : params.id;
-    const inv = MOCK_INVOICES.find((i) => i.id === id);
+    const inv = invoices.find((i) => i.id === id) || MOCK_INVOICES.find((i) => i.id === id);
 
     if (!inv) { setNotFound(true); return; }
 
@@ -36,7 +36,7 @@ export default function InvoiceDetailPage() {
     }
 
     setInvoice(inv);
-  }, [params.id, user, role, router]);
+  }, [params.id, user, role, router, invoices]);
 
   async function handleDownloadPDF() {
     if (!invoice || downloading) return;
