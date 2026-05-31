@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #040D21;
+  color: #E2E8F0;
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #040D21; }
+::-webkit-scrollbar-thumb { background: #1E3A5F; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2563EB; }
+
+/* ─── Selection ─────────────────────────────────────────────────────────────── */
+
+::selection { background: rgba(37, 99, 235, 0.35); color: #E2E8F0; }
+
+/* ─── Focus ring ────────────────────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid rgba(37, 99, 235, 0.6);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── Utilities ─────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  
+  .glass {
+    backdrop-filter: blur(12px) saturate(160%);
+    background: rgba(10, 22, 40, 0.7);
+    border: 1px solid rgba(30, 58, 95, 0.6);
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #3B82F6, #60A5FA, #93C5FD);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-gold {
+    background: linear-gradient(135deg, #D97706, #F59E0B, #FCD34D);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .shimmer-bg {
+    background: linear-gradient(
+      90deg,
+      #0F1F3D 25%,
+      #1E3A5F 50%,
+      #0F1F3D 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+/* ─── Page transition ──────────────────────────────────────────────────────── */
+
+.page-enter {
+  animation: slideUp 0.35s ease-out forwards;
+}
+
+/* ─── Input date color fix (dark mode) ────────────────────────────────────── */
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.6);
+  cursor: pointer;
+}
+
+/* ─── Table ─────────────────────────────────────────────────────────────────── */
+
+table { border-collapse: collapse; }
+
+/* ─── React Hot Toast overrides ─────────────────────────────────────────────── */
+
+.react-hot-toast {
+  font-family: 'Inter', sans-serif !important;
+}
